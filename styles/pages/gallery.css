@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+}
+
+.gallery-image-container { 
+  position: relative;
+  margin: 0;
+  width: fit-content;
+}
+
+.gallery-image-container figcaption {   
+  margin-top: 2rem; 
+  text-align: center;
+}
+
+.gallery-image {
+  position: absolute;
+  top: 0;
+	display: block;
+	margin: 0 auto;
+}
+
+.gallery-image.scratchable {
+  cursor:  crosshair;
+  cursor: url(../../images/coin.png) 53 53, crosshair;
+}
