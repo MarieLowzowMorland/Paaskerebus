@@ -1,0 +1,17 @@
+body{
+  width: 100vw;
+  margin: 0;
+}
+
+.img-wrapper{
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sentence-divider{
+  width: 100%;
+  border-top: 2px solid black;
+  min-height: 40px;
+  margin-top: 40px;
+}
+

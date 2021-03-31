@@ -8,6 +8,12 @@ body {
   width: fit-content;
 }
 
+.gallery-image-container > canvas:first-child{ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-x: center;
+}
+
 .gallery-image-container figcaption {   
   margin-top: 2rem; 
   text-align: center;
@@ -22,5 +28,5 @@ body {
 
 .gallery-image.scratchable {
   cursor:  crosshair;
-  cursor: url(../../images/coin.png) 53 53, crosshair;
+  cursor: url(../../images/coin.png) 30 30, crosshair;
 }

@@ -1,9 +1,10 @@
 import { decryptMessage, hashMessage } from "../crypto.js"
+import drawImageCover from "../drawImageCover.js"
 import galleryImages from "../data/galleryImages.js"
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 
-const scratchRadius = 50;
+const scratchRadius = 20;
 const gallery = document.getElementById("gallery");
 
 const leftButtonPressed = (event) => event.which === 1 || event.buttons === 1 || event.button === 1;
@@ -21,6 +22,10 @@ const galleryImageTemplate = (galleryImage) => /*template*/`
     </form>
   </div>`;
 
+const keyGuessTransformation = (keyGuess) => keyGuess
+  .toLocaleLowerCase()
+  .replaceAll(/[^a-zæøå]/g, "");
+
 galleryImages.forEach(galleryImage => {
   gallery.insertAdjacentHTML("afterbegin", galleryImageTemplate(galleryImage));
   const currentElement = gallery.firstElementChild;
@@ -30,7 +35,7 @@ galleryImages.forEach(galleryImage => {
   const upperCanvasContext = upperCanvas.getContext('2d');
   const img = new Image();
   img.src = galleryImage.frontImageUrl;
-  img.onload = () => upperCanvasContext.drawImage(img, 0, 0, upperCanvas.width, upperCanvas.height);
+  img.onload = () => drawImageCover(upperCanvasContext, img, 0, 0, upperCanvas.width, upperCanvas.height);
 
     
   const scratch = (point) => {
@@ -57,8 +62,12 @@ galleryImages.forEach(galleryImage => {
     const ctx = lowerCanvas.getContext("2d");
     ctx.font = "30px Arial";
     
-    const secrets = JSON.parse(await decryptMessage(key, ciphertext));
-    secrets.forEach(secret => {
+    const secret = JSON.parse(await decryptMessage(key, ciphertext));
+    if(secret.background){
+      lowerCanvas.style = `background-image: url("${secret.background}")`;
+    }
+
+    secret.messages.forEach(secret => {
       const { x, y, message} = secret;
       ctx.fillText(message, x, y);
     });
@@ -66,7 +75,7 @@ galleryImages.forEach(galleryImage => {
   
   imageForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const keyGuess = event.target["key-guess"].value;
+    const keyGuess = keyGuessTransformation(event.target["key-guess"].value);
     const hash = await hashMessage(keyGuess);
     const { checksum, ciphertext } = galleryImage;
 
