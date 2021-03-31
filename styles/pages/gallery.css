@@ -1,5 +1,50 @@
-body {
+body{
+  width: 100vw;
   margin: 0;
+  background-color: #f3f3f3;
+  color: #333333;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+nav{
+  margin: 15px 0 30px 0;
+  text-align: center;
+}
+
+nav a, button {
+  border: none;
+  padding: 10px 15px;
+  color: inherit;
+  background-color: #78b357;
+  text-decoration: none;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+button:hover, buttonfocus,
+nav a:hover, nav a:focus {
+  background-color: #98d377;
+}
+
+form{
+  display: flex;
+  justify-content: space-between;
+}
+
+input, button{    
+  height: 2.2rem;
+  box-sizing: border-box;
+}
+
+#gallery{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 15px;
+  justify-content: space-evenly;
+}
+
+#gallery > div{
+  width: 300px;
 }
 
 .gallery-image-container { 

@@ -14,11 +14,13 @@ const galleryImageTemplate = (galleryImage) => /*template*/`
     <figure class="gallery-image-container">
       <canvas width="300" height="500"></canvas>
       <canvas class="gallery-image" width="300" height="500"></canvas>
-      <figcaption>${galleryImage.figcaption}</figcaption>
     </figure>
     <form>
-      <input type="text" name="key-guess" placeholder="Kom med tilbakemelding"/>
-      <button type="submit">Send</button>
+      <label>
+        Kodeord:
+        <input type="text" name="key-guess"/>
+      </label>
+      <button type="submit">Prøv</button>
     </form>
   </div>`;
 
