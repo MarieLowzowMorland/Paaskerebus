@@ -24,6 +24,17 @@ const galleryImageTemplate = (galleryImage) => /*template*/`
     </form>
   </div>`;
 
+  const addMessage = (message) => {
+    if(!message){
+      return;
+    }
+  
+    const messagesContainer = document.getElementById("user-messages");
+    messagesContainer.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
+    const newMessageElement = messagesContainer.firstChild;
+    setTimeout(() => newMessageElement.remove(), 3000);
+  };
+
 const keyGuessTransformation = (keyGuess) => keyGuess
   .toLocaleLowerCase()
   .replaceAll(/[^a-zæøå]/g, "");
@@ -81,24 +92,28 @@ galleryImages.forEach(galleryImage => {
     const hash = await hashMessage(keyGuess);
     const { checksum, ciphertext } = galleryImage;
 
-    if(hash === checksum){
-      upperCanvas.classList.add("scratchable");
-      writeSecret(ciphertext, keyGuess);
-    
-      upperCanvas.addEventListener("mousemove", function(e) {
-        e.preventDefault();
-        if (leftButtonPressed(e)) {
-          scratch(boundedPoint(e.clientX, e.clientY));
-        }
-      });
-      
-      upperCanvas.addEventListener("touchmove", function(e) {
-        e.preventDefault();
-        const touch = e.targetTouches[0];
-        if (touch) {
-          scratch(boundedPoint(touch.clientX, touch.clientY));
-        }
-      });
+    if(hash !== checksum){
+      addMessage("Koden var feil, prøv igjen")
+      return;
     }
+
+    addMessage("Riktig kode! Skrap bort bilde")
+    upperCanvas.classList.add("scratchable");
+    writeSecret(ciphertext, keyGuess);
+  
+    upperCanvas.addEventListener("mousemove", function(e) {
+      e.preventDefault();
+      if (leftButtonPressed(e)) {
+        scratch(boundedPoint(e.clientX, e.clientY));
+      }
+    });
+    
+    upperCanvas.addEventListener("touchmove", function(e) {
+      e.preventDefault();
+      const touch = e.targetTouches[0];
+      if (touch) {
+        scratch(boundedPoint(touch.clientX, touch.clientY));
+      }
+    });
   })
 });
